@@ -5,6 +5,7 @@ app.controller('myCtrl', function ($scope, $http, $window) {
             $scope.products = [];
             $scope.CurrentPage = 1;
             $scope.TotalPage = 0;
+            $scope.SelectedFileForUpload = null;
             $scope.addorupdate = false;
             $scope.getDataWithPagination = function (page) {
                 $scope.IsLoading = true;
