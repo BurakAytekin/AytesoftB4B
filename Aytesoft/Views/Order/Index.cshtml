@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Aytesoft.Models.Order>
+@{
+    ViewBag.Title = "Index";
+}
+    <ul class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i></a></li>
+        <li><a href="#">Sipariş Geçmişi</a></li>
+    </ul>
+
+    <div class="row">
+        <!--Middle Part Start-->
+        <div id="content" class="col-sm-9">
+            <h2 class="title">Sipariş Geçmişi</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <td class="text-center">Sipariş Numarası</td>
+                            <td class="text-center">Tarih</td>
+                            <td class="text-center">Durum</td>
+                            <td class="text-center">Fiyat</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td class="text-center">
+                                @item.id
+                            </td>
+                            <td class="text-center">@item.date</td>
+                            @if (item.status == 0)
+                            {
+                                <td class="text-center">Beklemede</td>
+                            }
+                            else
+                            {
+                                <td class="text-center">Onaylandı</td>
+                            }
+
+                            <td class="text-center">@item.productprice TL</td>
+                            <td class="text-center">
+                                <button class="btn btn-info" onclick="location.href='@Url.Action("OrderInformation", "Order", new { orderid = item.id })'"><i class="fa fa-eye"></i></button>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        </div>
