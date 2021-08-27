@@ -1,0 +1,137 @@
+﻿
+
+@model IEnumerable<Aytesoft.Models.Domain.Basket>
+@{
+    ViewBag.Title = "Basket";
+}
+<script type="text/javascript">
+    function Remove(pid,quantity) {
+        $.post("Remove?productId=" + pid +"&quantity="+quantity , function (data) {
+            window.location.reload(true);
+        });
+    }
+</script>
+<ul class="breadcrumb">
+    <li><a href="#"><i class="fa fa-home"></i></a></li>
+    <li><a href="#">Alışveriş Sepeti</a></li>
+</ul>
+
+<div class="row">
+    <!--Middle Part Start-->
+    <div id="content" class="col-sm-12">
+        <h2 class="title">Alışveriş Sepeti</h2>
+        <div class="table-responsive form-group">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td class="text-left">Ürün Adı</td>
+                        <td class="text-left">Ürün Fiyatı</td>
+                        <td class="text-left">Adet</td>
+                        <td class="text-right">Fiyat</td>
+                        <td class="text-right">Sil</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int totalprice = 0;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        totalprice += @item.price;
+                        <tr>
+                            <td class="text-left">
+                                @item.productname
+                            </td>
+                            <td class="text-left">
+                                @item.productprice
+                            </td>
+                            <td class="text-right">
+                                @item.quantity
+                            </td>
+                            <td class="text-right">
+                                @item.price
+                            </td>
+                            <td class="column6 text-center">
+                                <button style="color:red" onclick="location.href='@Url.Action("Delete", "Basket", new { id = item.id })'"><i class="fa fa-trash"></i></button>
+                            </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @{
+            var iskonto = totalprice * 0.10;
+            var iskontodahil = totalprice - iskonto;
+            var kdv = iskontodahil * 0.18;
+            var kdvdahil = iskontodahil + kdv;
+        }
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="#collapse-coupon" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" aria-expanded="true">
+                            Sipariş Notu
+
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-coupon" class="panel-collapse collapse in" aria-expanded="true">
+                    <div class="panel-body">
+                        <label class="col-sm-2 control-label" for="input-coupon">Sipariş Notu:</label>
+                        <div class="input-group">
+                            <input type="text" name="coupon" value="" placeholder="Sipariş Notu Giriniz" id="input-coupon" class="form-control">
+                            <span class="input-group-btn"><input type="button" value="Güncelle" id="button-coupon" data-loading-text="Loading..." class="btn btn-primary"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-8">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="text-right">
+                                    <strong>Alt Toplam:</strong>
+                                </td>
+                                <td class="text-right">@totalprice ₺</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    <strong>Iskonto %10:</strong>
+                                </td>
+                                <td class="text-right">@iskonto ₺</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    <strong>Iskonto Sonrası Fiyat</strong>
+                                </td>
+                                <td class="text-right">@iskontodahil ₺</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    <strong>KDV %18</strong>
+                                </td>
+                                <td class="text-right">@kdv ₺</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    <strong>Toplam:</strong>
+                                </td>
+                                <td class="text-right">@kdvdahil ₺</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="buttons">
+                @using (Html.BeginForm("OrderSave", "Basket", FormMethod.Post))
+            {
+                    <div class="pull-right"><button type="submit" href="checkout.html" class="btn btn-primary">Checkout</button></div>
+                }
+            </div>
+        </div>
+    <!--Middle Part End -->
+
+</div>
