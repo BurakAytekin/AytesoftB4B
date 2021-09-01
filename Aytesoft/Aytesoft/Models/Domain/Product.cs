@@ -8,12 +8,12 @@ namespace Aytesoft.Models.Domain
 {
     public class Product
     {
-        public int id { get; set; }
-        public string code { get; set; }
-        public string name { get; set; }
-        public string price { get; set; }
-        public string imagepath { get; set; }
-        public string stock { get; set; }
-        public int status { get; set; }
+        public int ID { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public string Price { get; set; }
+        public string ImagePath { get; set; }
+        public string Stock { get; set; }
+        public int Status { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-@model IEnumerable<Aytesoft.Models.Domain.Order>
+@model IEnumerable<Aytesoft.Models.View.OrderView>
 @{
     ViewBag.Title = "Index";
 }
@@ -28,10 +28,10 @@
                         {
                         <tr>
                             <td class="text-center">
-                                @item.id
+                                @item.ID
                             </td>
-                            <td class="text-center">@item.date</td>
-                            @if (item.status == 0)
+                            <td class="text-center">@item.Date</td>
+                            @if (item.Status == 0)
                             {
                                 <td class="text-center">Beklemede</td>
                             }
@@ -40,9 +40,9 @@
                                 <td class="text-center">Onaylandı</td>
                             }
 
-                            <td class="text-center">@item.productprice TL</td>
+                            <td class="text-center">@item.TotalPrice TL</td>
                             <td class="text-center">
-                                <button class="btn btn-info" onclick="location.href='@Url.Action("OrderInformation", "Order", new { orderid = item.id })'"><i class="fa fa-eye"></i></button>
+                                <button class="btn btn-info" onclick="location.href='@Url.Action("OrderInformation", "Order", new { orderid = item.ID })'"><i class="fa fa-eye"></i></button>
                             </td>
                         </tr>
                         }

@@ -1,6 +1,6 @@
 ﻿
 
-@model IEnumerable<Aytesoft.Models.Domain.Basket>
+@model IEnumerable<Aytesoft.Models.View.BasketView>
 @{
     ViewBag.Title = "Basket";
 }
@@ -15,12 +15,16 @@
     <li><a href="#"><i class="fa fa-home"></i></a></li>
     <li><a href="#">Alışveriş Sepeti</a></li>
 </ul>
-
+@{
+    double totalprice = 0;
+}
 <div class="row">
     <!--Middle Part Start-->
     <div id="content" class="col-sm-12">
         <h2 class="title">Alışveriş Sepeti</h2>
         <div class="table-responsive form-group">
+            @if (Model.Count() > 0)
+            {
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -32,39 +36,44 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @{
-                        int totalprice = 0;
-                    }
+
                     @foreach (var item in Model)
                     {
-                        totalprice += @item.price;
+                        if (Model.Count() > 0)
+                        {
+                            totalprice += @item.Price;
+
                         <tr>
                             <td class="text-left">
-                                @item.productname
+                                @item.ProductName
                             </td>
                             <td class="text-left">
-                                @item.productprice
+                                @item.ProductPrice
                             </td>
                             <td class="text-right">
-                                @item.quantity
+                                @item.Quantity
                             </td>
                             <td class="text-right">
-                                @item.price
+                                @item.Price
                             </td>
                             <td class="column6 text-center">
-                                <button style="color:red" onclick="location.href='@Url.Action("Delete", "Basket", new { id = item.id })'"><i class="fa fa-trash"></i></button>
+                                <button style="color:red" onclick="location.href='@Url.Action("Delete", "Basket", new { id = item.ID })'"><i class="fa fa-trash"></i></button>
                             </td>
                     </tr>
+                        }
                     }
                 </tbody>
             </table>
+                        }
         </div>
-        @{
+                      
+        @if (Model.Count() > 0)
+        {
             var iskonto = totalprice * 0.10;
             var iskontodahil = totalprice - iskonto;
             var kdv = iskontodahil * 0.18;
             var kdvdahil = iskontodahil + kdv;
-        }
+
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -125,12 +134,20 @@
                     </table>
                 </div>
             </div>
+
+
             <div class="buttons">
                 @using (Html.BeginForm("OrderSave", "Basket", FormMethod.Post))
             {
-                    <div class="pull-right"><button type="submit" href="checkout.html" class="btn btn-primary">Checkout</button></div>
+                    <div class="pull-right"><button type="submit" href="checkout.html" class="btn btn-primary">Siparişi Tamamla</button></div>
                 }
             </div>
+        }else
+        {
+            <div class="alert" style="padding: 20px; background-color: #f44336; color:white;">
+                <strong>Sepetinizde Ürün Bulunmamaktadır!</strong>
+            </div>
+        }
         </div>
     <!--Middle Part End -->
 

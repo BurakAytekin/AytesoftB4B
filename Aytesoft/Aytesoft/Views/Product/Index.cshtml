@@ -67,24 +67,24 @@
                                     <button class="button" data-toggle="modal" data-target="#image" ng-click="setImage(Pd)" ng-disabled="imagecheck(Pd)"><i class="fa fa-camera"></i></button>
                                 </td>
                                 <td class="text-center">
-                                    {{Pd.code}}
+                                    {{Pd.Code}}
                                 </td>
                                 <td class="text-center">
-                                    {{Pd.name}}
+                                    {{Pd.Name}}
                                 </td>
                                 <td class="text-center">
-                                    {{Pd.price}} TL
+                                    {{Pd.Price}} TL
                                 </td>
                                 <td class="text-center">
-                                    <input id="quantity{{Pd.id}}" type="number" min="0" max="{{Pd.stock}}" style="border:4px solid red; background-color:darkgrey; color:white" class="form-control" ng-init="0" />
+                                    <input id="quantity{{Pd.ID}}" type="number" min="0" max="{{Pd.Stock}}" style="border:4px solid red; background-color:darkgrey; color:white" class="form-control" ng-init="0" />
                                 </td>
-                                <td class="text-center" ng-show="Pd.stock > 0 ? true:false">
+                                <td class="text-center" ng-show="Pd.Stock > 0 ? true:false">
                                     <i class="fa fa-check-circle" style="color:green"></i>
                                 </td>
-                                <td class="text-center" ng-hide="Pd.stock > 0 ? true:false">
+                                <td class="text-center" ng-hide="Pd.Stock > 0 ? true:false">
                                     <i class="fa fa-times-circle" style="color:red"></i>
                                 </td>
-                                <td class="column9 text-center" ng-show="Pd.stock > 0 ? true:false">
+                                <td class="column9 text-center" ng-show="Pd.Stock > 0 ? true:false">
                                     <button class="btn" ng-click="Basket(Pd)"><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
                                 </td>
                             </tr>

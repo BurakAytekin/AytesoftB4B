@@ -29,3 +29,5 @@ D:\B2b_MVC\Aytesoft\DataAccess\bin\Debug\Autofac.Integration.Mvc.dll
 D:\B2b_MVC\Aytesoft\DataAccess\bin\Debug\Autofac.xml
 D:\B2b_MVC\Aytesoft\DataAccess\bin\Debug\Services.pdb
 D:\B2b_MVC\Aytesoft\DataAccess\bin\Debug\Autofac.Integration.Mvc.xml
+D:\B2b_MVC\Aytesoft\DataAccess\bin\Debug\AutoMapper.dll
+D:\B2b_MVC\Aytesoft\DataAccess\bin\Debug\AutoMapper.xml

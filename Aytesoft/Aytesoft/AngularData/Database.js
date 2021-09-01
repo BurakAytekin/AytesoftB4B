@@ -110,7 +110,7 @@ app.controller('myCtrl', function ($scope, $http, $window) {
             };
 
             $scope.imagecheck = function (Pd) {
-                if(Pd.imagepath.length > 0)
+                if(Pd.ImagePath.length > 0)
                 {
                     return false;
                 }
@@ -118,10 +118,10 @@ app.controller('myCtrl', function ($scope, $http, $window) {
             }
 
             $scope.setImage = function (Pd) {
-                if (Pd.imagepath.length > 0)
+                if (Pd.ImagePath.length > 0)
                 {
-                    $scope.imagelink = Pd.imagepath;
-                    console.log(Pd.imagepath);
+                    $scope.imagelink = Pd.ImagePath;
+                    console.log(Pd.ImagePath);
                 }
                 else {
                     $scope.imagelink = "../ftp/images/error.jpg";
@@ -223,34 +223,35 @@ app.controller('myCtrl', function ($scope, $http, $window) {
             }
 
             $scope.Basket = function (pd) {
-                var elementid = 'quantity' + pd.id;
+                var elementid = 'quantity' + pd.ID;
+                console.log(elementid);
                 var insertquantity = angular.element(document.getElementById(elementid))[0].value;
-                if (pd.stock > 0 && pd.stock >= insertquantity)
+                if (pd.Stock > 0 && pd.Stock >= insertquantity)
                 {
-                    var insertprice = pd.price * insertquantity;
+                    var insertprice = pd.Price * insertquantity;
                     var model = {
-                        productid: pd.id,
-                        quantity: insertquantity,
-                        price: insertprice,
-                        productprice: pd.price,
-                        productname: pd.name,
+                        ProductID: pd.ID,
+                        Quantity: insertquantity,
+                        Price: insertprice,
+                        ProductPrice: pd.Price,
+                        ProductName: pd.Name,
                     }
                     if (insertquantity > 0)
                     {
                         $http.post('/Product/insertBasket', { basketitem: model }).success(function () {
-                            swal("Sepete Ekleme İşlemi başarılı", pd.name + " adlı üründen " + insertquantity + " adet sepete eklenmiştir.", "success");
-                            pd.stock = pd.stock - insertquantity;
+                            swal("Sepete Ekleme İşlemi başarılı", pd.Name + " adlı üründen " + insertquantity + " adet sepete eklenmiştir.", "success");
+                            pd.Stock = pd.Stock - insertquantity;
                         }).error(function () {
                             swal(data.errors);
                         })
                     }
                     else {
-                        swal("Ürün Adedi Belirleyiniz",pd.name + " adlı seçmiş olduğunuz üründen sepete eklemek için adet belirlemeniz gerekmektedir." ,"info");
+                        swal("Ürün Adedi Belirleyiniz", pd.Name + " adlı seçmiş olduğunuz üründen sepete eklemek için adet belirlemeniz gerekmektedir.", "info");
                     }
 
                 }
                 else {
-                    swal("Stok Hatası", pd.name + "adlı üründen elimizde yeteri kadar bulunmamaktadır.", "info");
+                    swal("Stok Hatası", pd.Name + "adlı üründen elimizde yeteri kadar bulunmamaktadır.", "info");
                 }
             }
 

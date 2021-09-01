@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Aytesoft.Models.Domain;
-using Aytesoft.DataAccessLayer;
 using Services;
 using Services.Interfaces;
 
@@ -33,7 +32,7 @@ namespace Aytesoft.Controllers
         }
         public JsonResult insertBasket(Basket basketitem)
         {
-            basketitem.userid = Convert.ToInt32(User.Identity.Name);
+            basketitem.UserID = Convert.ToInt32(User.Identity.Name);
             if(_BasketService.InsertBasketItem(basketitem))
                 return Json("Insertion Successful", JsonRequestBehavior.AllowGet);
             return Json("Insertion Failed", JsonRequestBehavior.DenyGet);

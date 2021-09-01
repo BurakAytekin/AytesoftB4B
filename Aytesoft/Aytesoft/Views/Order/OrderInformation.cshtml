@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Aytesoft.Models.Domain.OrderDetail>
+﻿@model IEnumerable<Aytesoft.Models.View.OrderDetailView>
 @{
     ViewBag.Title = "OrderInformation";
 }
@@ -23,10 +23,10 @@
                     @foreach (var item in Model)
                     {
                     <tr>
-                        <td class="text-left">@item.product.code </td>
-                        <td class="text-left">@item.product.name</td>
-                        <td class="text-right">@item.quantity</td>
-                        <td class="text-right">@item.productprice TL</td>
+                        <td class="text-left">@item.Code </td>
+                        <td class="text-left">@item.Name</td>
+                        <td class="text-right">@item.Quantity</td>
+                        <td class="text-right">@item.ProductPrice TL</td>
                     </tr>
                     }
                 </tbody>

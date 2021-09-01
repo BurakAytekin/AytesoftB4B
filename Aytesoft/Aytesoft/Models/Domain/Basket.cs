@@ -8,13 +8,13 @@ namespace Aytesoft.Models.Domain
 {
     public class Basket
     {
-        public int id { get; set; }
-        public int productid { get; set; }
-        public int quantity { get; set; }
-        public int price { get; set; }
-        public int userid { get; set; }
-        public int productprice { get; set; }
-        public string productname { get; set; }
+        public int ID { get; set; }
+        public int ProductID { get; set; }
+        public int Quantity { get; set; }
+        public int Price { get; set; }
+        public int UserID { get; set; }
+        public int ProductPrice { get; set; }
+        public string ProductName { get; set; }
 
     }
 }

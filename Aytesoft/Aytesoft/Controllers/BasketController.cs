@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using Services.Interfaces;
 using Services;
 using Aytesoft.Models.Domain;
-using Aytesoft.DataAccessLayer;
 
 namespace Aytesoft.Controllers
 {
@@ -23,9 +22,8 @@ namespace Aytesoft.Controllers
         public ActionResult Index()
         {
             int UserId = Convert.ToInt32(User.Identity.Name);
-            List<Basket> BasketList = _BasketService.GetBasketList(UserId);
             TempData.Keep();
-            return View(BasketList);
+            return View(_BasketService.GetBasketList(UserId));
         }
 
         public ActionResult Delete(int id)

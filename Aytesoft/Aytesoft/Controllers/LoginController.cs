@@ -3,15 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Aytesoft.Models.Domain;
-using Aytesoft.DataAccessLayer;
+using Aytesoft.Models.View;
+using Aytesoft.Models.Edit;
 using System.Web.Security;
 using System.Web.SessionState;
+using Services.Interfaces;
+using Services;
 
 namespace Aytesoft.Controllers
 {
     public class LoginController : Controller
     {
+        ILoginService _LoginService;
+        public LoginController(ILoginService LoginService)
+        {
+            _LoginService = LoginService;
+        }
         [AllowAnonymous]
         public ActionResult Index()
         {
@@ -19,16 +26,18 @@ namespace Aytesoft.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Login(User user)
+        public ActionResult Login(UserEdit user)
         {
-            User auth = ProductDB.GetUserWithLogin(user.UserName, user.Password);
-            if(auth.UserName != null && auth.UserName != null)
+            if(ModelState.IsValid)
             {
-                FormsAuthentication.SetAuthCookie(auth.ID.ToString(), false);
-                TempData["Name"] = auth.Name.ToString();
-                return RedirectToAction("Index", "Home");
+                UserView auth = _LoginService.Authorization(user);
+                if (auth.UserName != null)
+                {
+                    TempData["Name"] = auth.Name.ToString();
+                    return RedirectToAction("Index", "Home");
+                }
             }
-            return RedirectToAction("Index","Login");
+            return RedirectToAction("Index", "Login");
         }
         public ActionResult Logout()
         {
