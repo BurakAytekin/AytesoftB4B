@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Aytesoft.Models.Domain;
+using DataAccess.Domain;
 using Aytesoft.Models.Edit;
 using Aytesoft.Models.View;
 
@@ -13,7 +13,5 @@ namespace Services.Interfaces
     {
         UserView Authorization(UserEdit User);
         bool AuthCheck(User User);
-        bool StatusCheck(User User);
-        UserView MapUser(User user);
     }
 }

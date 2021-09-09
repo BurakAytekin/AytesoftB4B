@@ -11,31 +11,31 @@ namespace Aytesoft.Controllers
 {
     public class BasketController : Controller
     {
-        IBasketService _BasketService;
-        IOrderService _OrderService;
-        public BasketController(IBasketService BasketService,IOrderService OrderService)
+        IBasketService _basketservice;
+        IOrderService _orderservice;
+        public BasketController(IBasketService basketservice,IOrderService orderservice)
         {
-            _BasketService = BasketService;
-            _OrderService = OrderService;
+            _basketservice = basketservice;
+            _orderservice = orderservice;
         }
         // GET: Basket
         public ActionResult Index()
         {
             int UserId = Convert.ToInt32(User.Identity.Name);
             TempData.Keep();
-            return View(_BasketService.GetBasketList(UserId));
+            return View(_basketservice.GetBasketList(UserId));
         }
 
         public ActionResult Delete(int id)
         {
-            _BasketService.DeleteBasketItem(id);
+            _basketservice.DeleteBasketItem(id);
             return RedirectToAction("Index");
         }
 
         public ActionResult OrderSave()
         {
             int userid = Convert.ToInt32(User.Identity.Name);
-            _OrderService.InsertOrder(userid);   
+            _orderservice.InsertOrder(userid);   
             return RedirectToAction("Index", "Home");
         }
     }

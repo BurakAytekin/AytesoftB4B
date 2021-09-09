@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Services.Interfaces;
-using Aytesoft.Models.Domain;
+using DataAccess.Entity;
 using Aytesoft.Models.View;
 using DataAccess;
 using AutoMapper;
@@ -13,40 +13,39 @@ namespace Services
 {
     public class BasketService : IBasketService
     {
-        public bool DeleteBasketItem(int ItemId)
+        UnitOfWork _unitOfWork = new UnitOfWork(new Context());
+        public void DeleteBasketItem(int ItemId)
         {
-            int Result = DbContext.DeleteBasketItem(ItemId);
-            return AffectedRowCheck(Result);
+            _unitOfWork.basketRepository.Remove(ItemId);
+            _unitOfWork.Complete();
         }
 
-        public List<BasketView> GetBasketList(int Id)
+        public List<BasketView> GetBasketList(int id)
         {
-
-            List<Basket> BasketList = DbContext.GetBasketItems(Id);
+            IEnumerable<Basket> BasketList = _unitOfWork.basketRepository.getBasketList(id);
             List<BasketView> MappedList = BasketMap(BasketList);
-            if (BasketList.Count > 0)
+            if (MappedList.Count > 0)
                 return MappedList;
             return new List<BasketView>();
         }
 
         public bool InsertBasketItem(Basket BasketItem)
         {
-            int Result = DbContext.InsertBasketItem(BasketItem);
-            return AffectedRowCheck(Result);
+            _unitOfWork.basketRepository.Add(BasketItem);
+            int result = _unitOfWork.Complete();
+            return AffectedRowCheck(result);
         }
 
-        public bool AffectedRowCheck(int Result)
+        private bool AffectedRowCheck(int Result)
         {
-            if (Result > 0)
-                return true;
-            return false;
+            return Result > 0; 
         }
 
-        public List<BasketView> BasketMap(List<Basket> BasketList)
+        private List<BasketView> BasketMap(IEnumerable<Basket> BasketList)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Basket, BasketView>());
             var mapper = new Mapper(config);
-            List<BasketView> basket = mapper.Map<List<Basket>, List<BasketView>>(BasketList);
+            List<BasketView> basket = mapper.Map<IEnumerable<Basket>, List<BasketView>>(BasketList);
             return basket;
         }
     }

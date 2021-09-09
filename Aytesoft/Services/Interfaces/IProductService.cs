@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Aytesoft.Models.Domain;
+using DataAccess.Entity;
 
 namespace Services.Interfaces
 {
     public interface IProductService
     {
-        List<Product> GetProductList();
-        List<Product> GetProductBySearch(string key);
-        List<Product> ListCheck(List<Product> ProductList);
+        IEnumerable<Product> GetProductList();
+        IEnumerable<Product> GetProductBySearch(string key);
     }
 }

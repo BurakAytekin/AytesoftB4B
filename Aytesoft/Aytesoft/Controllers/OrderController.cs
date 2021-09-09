@@ -12,23 +12,23 @@ namespace Aytesoft.Controllers
 {
     public class OrderController : Controller
     {
-        IOrderService _OrderService;
-        public OrderController(IOrderService OrderService)
+        IOrderService _orderservice;
+        public OrderController(IOrderService orderservice)
         {
-            _OrderService = OrderService;
+            _orderservice = orderservice;
         }
         // GET: Order
         public ActionResult Index()
         {
             int userid = Convert.ToInt32(User.Identity.Name);
             TempData.Keep();
-            return View(_OrderService.GetOrder(userid));
+            return View(_orderservice.GetOrder(userid));
         }
 
         public ActionResult OrderInformation(int orderid)
         {
             TempData.Keep();
-            return View(_OrderService.GetOrderDetail(orderid));
+            return View(_orderservice.GetOrderDetail(orderid));
         }
     }
 }

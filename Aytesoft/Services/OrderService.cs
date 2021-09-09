@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Services.Interfaces;
-using Aytesoft.Models.Domain;
+using DataAccess.Domain;
 using Aytesoft.Models.View;
 using DataAccess;
 using AutoMapper;
@@ -13,68 +13,66 @@ namespace Services
 {
     public class OrderService : IOrderService
     {
-        public List<OrderView> GetOrder(int UserId)
+        public List<OrderView> GetOrder(int userId)
         {
-            List<Order> OrderList =  DbContext.GetOrders(UserId);
-            return MapOrder(OrderListCheck(OrderList));
+            List<Order> orderlist =  DbContext_1.GetOrders(userId);
+            return MapOrder(OrderListCheck(orderlist));
         }
 
-        public List<OrderDetailView> GetOrderDetail(int OrderId)
+        public List<OrderDetailView> GetOrderDetail(int orderId)
         {
-            List<OrderDetail> OrderDetailList = DbContext.GetOrderDetail(OrderId);
-            List<OrderDetail> CheckedList = OrderDetailListCheck(OrderDetailList);
-            return MapOrderDetail(CheckedList);   
+            List<OrderDetail> orderdetaillist = DbContext_1.GetOrderDetail(orderId);
+            List<OrderDetail> checkedList = OrderDetailListCheck(orderdetaillist);
+            return MapOrderDetail(checkedList);   
         }
 
-        public bool InsertOrder(int UserId)
+        public bool InsertOrder(int userId)
         {
-            int Result = DbContext.InsertOrder(UserId);
-            return AffectedRowCheck(Result);
+            int result = DbContext_1.InsertOrder(userId);
+            return AffectedRowCheck(result);
         }
 
 
-        public bool AffectedRowCheck(int Result)
+        private bool AffectedRowCheck(int result)
         {
-            if (Result > 0)
-                return true;
-            return false;
+            return result > 0;
         }
 
-        public List<Order> OrderListCheck(List<Order> OrderList)
+        private List<Order> OrderListCheck(List<Order> orderlist)
         {
-            if (OrderList != null)
+            if (orderlist != null)
             {
-                if (OrderList.Count > 1)
-                    return OrderList;
+                if (orderlist.Count > 1)
+                    return orderlist;
             }
             return new List<Order>();
         }
 
-        public List<OrderDetail> OrderDetailListCheck(List<OrderDetail> OrderDetailList)
+        private List<OrderDetail> OrderDetailListCheck(List<OrderDetail> orderdetaillist)
         {
-            if (OrderDetailList != null)
+            if (orderdetaillist != null)
             {
-                if (OrderDetailList.Count > 1)
-                    return OrderDetailList;
+                if (orderdetaillist.Count > 1)
+                    return orderdetaillist;
             }
             return new List<OrderDetail>();
         }
 
-        public List<OrderDetailView> MapOrderDetail(List<OrderDetail> OrderDetailList)
+        private List<OrderDetailView> MapOrderDetail(List<OrderDetail> orderdetaillist)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<OrderDetail, OrderDetailView>()
             .ForMember(dest => dest.Code,act => act.MapFrom(src => src.Product.Code))
             .ForMember(dest => dest.Name,act => act.MapFrom(src => src.Product.Name)));
             var mapper = new Mapper(config);
-            List<OrderDetailView> mappedOrderDetail = mapper.Map<List<OrderDetailView>>(OrderDetailList);
+            List<OrderDetailView> mappedOrderDetail = mapper.Map<List<OrderDetailView>>(orderdetaillist);
             return mappedOrderDetail;
         }
 
-        public List<OrderView> MapOrder(List<Order> OrderList)
+        private List<OrderView> MapOrder(List<Order> orderlist)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Order, OrderView>());
             var mapper = new Mapper(config);
-            List<OrderView> mappedOrder = mapper.Map<List<OrderView>>(OrderList);
+            List<OrderView> mappedOrder = mapper.Map<List<OrderView>>(orderlist);
             return mappedOrder;
         }
     }

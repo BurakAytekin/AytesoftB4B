@@ -1,0 +1,4 @@
+D:\B2b_MVC\Aytesoft\DataAccess\obj\Release\DataAccess.Migrations.First.resources
+D:\B2b_MVC\Aytesoft\DataAccess\obj\Release\DataAccess.Migrations.TypeChange.resources
+D:\B2b_MVC\Aytesoft\DataAccess\obj\Release\DataAccess.csproj.GenerateResource.cache
+D:\B2b_MVC\Aytesoft\DataAccess\obj\Release\DataAccess.csproj.CoreCompileInputs.cache

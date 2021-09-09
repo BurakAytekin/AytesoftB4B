@@ -1,0 +1,1 @@
+D:\B2b_MVC\Aytesoft\Services\obj\Release\Services.csproj.CoreCompileInputs.cache

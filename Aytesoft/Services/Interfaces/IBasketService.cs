@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Aytesoft.Models.Domain;
+using DataAccess.Entity;
 using Aytesoft.Models.View;
 
 namespace Services.Interfaces
@@ -11,9 +11,7 @@ namespace Services.Interfaces
     public interface IBasketService
     {
         List<BasketView> GetBasketList(int Id);
-        bool DeleteBasketItem(int ItemId);
+        void DeleteBasketItem(int ItemId);
         bool InsertBasketItem(Basket BasketItem);
-        bool AffectedRowCheck(int Result);
-        List<BasketView> BasketMap(List<Basket> BasketList);
     }
 }

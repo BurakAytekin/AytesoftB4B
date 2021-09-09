@@ -3,32 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Aytesoft.Models.Domain;
+using DataAccess.Entity;
 using DataAccess;
 using Services.Interfaces;
-
+using AutoMapper;
 
 namespace Services
 {
     public class ProductService : IProductService
     {
-        public List<Product> GetProductBySearch(string key)
+        UnitOfWork _unitOfWork = new UnitOfWork(new Context());
+        public IEnumerable<Product> GetProductBySearch(string key)
         {
-            List<Product> ProductList = DbContext.GetProductBySearch(key);
-            return ListCheck(ProductList);
+            IEnumerable<Product> productlist = _unitOfWork.productRepository.getProductBySearch(key);
+            return ListCheck(productlist);
         }
 
-        public List<Product> GetProductList()
+        public IEnumerable<Product> GetProductList()
         {
-            List<Product> ProductList = DbContext.GetProductList();
-            return ListCheck(ProductList);
+            IEnumerable<Product> productlist = _unitOfWork.productRepository.GetAll();
+            return ListCheck(productlist);
         }
 
-        public List<Product> ListCheck(List<Product> ProductList)
+        private IEnumerable<Product> ListCheck(IEnumerable<Product> productlist)
         {
-            if (ProductList != null)
-                return ProductList;
+            if (productlist != null)
+                return productlist;
             return new List<Product>();
         }
+
     }
 }
