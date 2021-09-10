@@ -132,6 +132,9 @@
     <Reference Include="Npgsql, Version=4.0.7.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>..\packages\Npgsql.4.0.7\lib\net451\Npgsql.dll</HintPath>
     </Reference>
+    <Reference Include="Services">
+      <HintPath>..\Services\bin\Debug\Services.dll</HintPath>
+    </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
@@ -239,6 +242,7 @@
     <Compile Include="Models\View\BasketView.cs" />
     <Compile Include="Models\View\OrderDetailView.cs" />
     <Compile Include="Models\View\OrderView.cs" />
+    <Compile Include="Models\View\ProductView.cs" />
     <Compile Include="Models\View\UserView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -278,10 +282,6 @@
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
       <Project>{85baa8e8-ca9f-4e74-adf1-ada6f2ed4240}</Project>
       <Name>DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Services\Services.csproj">
-      <Project>{37b28f36-7e5a-4dbf-8d38-7ca66882665c}</Project>
-      <Name>Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

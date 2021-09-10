@@ -15,5 +15,10 @@ namespace DataAccess.Repositories
         {
         }
         public Context context { get { return _context as Context; } }
+
+        public IEnumerable<OrderDetail> getOrderDetailWithOrderId(int orderid)
+        {
+            return context.OrderDetail.Where(x => x.OrderId == orderid).ToList();
+        }
     }
 }

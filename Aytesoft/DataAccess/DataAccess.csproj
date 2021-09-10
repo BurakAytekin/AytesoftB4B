@@ -149,6 +149,14 @@
     <Compile Include="Migrations\202109071355479_TypeChange.Designer.cs">
       <DependentUpon>202109071355479_TypeChange.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202109092235243_New.cs" />
+    <Compile Include="Migrations\202109092235243_New.Designer.cs">
+      <DependentUpon>202109092235243_New.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109092304315_ForeignKey.cs" />
+    <Compile Include="Migrations\202109092304315_ForeignKey.Designer.cs">
+      <DependentUpon>202109092304315_ForeignKey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MySqlHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -182,6 +190,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202109071355479_TypeChange.resx">
       <DependentUpon>202109071355479_TypeChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109092235243_New.resx">
+      <DependentUpon>202109092235243_New.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109092304315_ForeignKey.resx">
+      <DependentUpon>202109092304315_ForeignKey.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

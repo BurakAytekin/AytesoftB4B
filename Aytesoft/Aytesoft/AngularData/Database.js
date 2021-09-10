@@ -223,14 +223,14 @@ app.controller('myCtrl', function ($scope, $http, $window) {
             }
 
             $scope.Basket = function (pd) {
-                var elementid = 'quantity' + pd.ID;
+                var elementid = 'quantity' + pd.Id;
                 console.log(elementid);
                 var insertquantity = angular.element(document.getElementById(elementid))[0].value;
                 if (pd.Stock > 0 && pd.Stock >= insertquantity)
                 {
                     var insertprice = pd.Price * insertquantity;
                     var model = {
-                        ProductID: pd.ID,
+                        ProductID: pd.Id,
                         Quantity: insertquantity,
                         Price: insertprice,
                         ProductPrice: pd.Price,

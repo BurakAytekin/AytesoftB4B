@@ -9,5 +9,6 @@ namespace DataAccess.Repositories.Interfaces
 {
     public interface IOrderDetailRepository : IRepository<OrderDetail>
     {
+        IEnumerable<OrderDetail> getOrderDetailWithOrderId(int orderid);
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataAccess.Domain;
+using DataAccess.Entity;
 using Aytesoft.Models.View;
 using Aytesoft.Models.Edit;
 using Services.Interfaces;
@@ -15,6 +15,7 @@ namespace Services
 {
     public class LoginService : ILoginService
     {
+        private UnitOfWork _unitofWork = new UnitOfWork(new Context());
         public bool AuthCheck(User user)
         {
             if (user.UserName != null && user.Password != null)
@@ -24,11 +25,11 @@ namespace Services
 
         public UserView Authorization(UserEdit user)
         {
-            User authed = DbContext_1.GetUserWithLogin(user.UserName,user.Password);
+            User authed = _unitofWork.userRepository.GetUserWithLogin(user.UserName, user.Password);
             if(AuthCheck(authed))
             {
                 if (StatusCheck(authed)) { 
-                    FormsAuthentication.SetAuthCookie(authed.ID.ToString(), false);
+                    FormsAuthentication.SetAuthCookie(authed.Id.ToString(), false);
                     UserView returnUser = MapUser(authed);
                     return returnUser;
                 }

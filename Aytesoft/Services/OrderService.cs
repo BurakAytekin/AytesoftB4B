@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Services.Interfaces;
-using DataAccess.Domain;
+using DataAccess.Entity;
 using Aytesoft.Models.View;
 using DataAccess;
 using AutoMapper;
@@ -13,22 +13,52 @@ namespace Services
 {
     public class OrderService : IOrderService
     {
+        UnitOfWork _unitOfWork = new UnitOfWork(new Context());
         public List<OrderView> GetOrder(int userId)
         {
-            List<Order> orderlist =  DbContext_1.GetOrders(userId);
+            IEnumerable<Order> orderlist = _unitOfWork.orderRepository.GetOrderWithUserId(userId);
             return MapOrder(OrderListCheck(orderlist));
         }
 
         public List<OrderDetailView> GetOrderDetail(int orderId)
         {
-            List<OrderDetail> orderdetaillist = DbContext_1.GetOrderDetail(orderId);
-            List<OrderDetail> checkedList = OrderDetailListCheck(orderdetaillist);
+            IEnumerable<OrderDetail> orderdetaillist = _unitOfWork.orderDetailRepository.getOrderDetailWithOrderId(orderId);
+            IEnumerable<OrderDetail> checkedList = OrderDetailListCheck(orderdetaillist);
             return MapOrderDetail(checkedList);   
         }
 
         public bool InsertOrder(int userId)
         {
-            int result = DbContext_1.InsertOrder(userId);
+            IEnumerable<Basket> basketlist = _unitOfWork.basketRepository.getBasketList(userId);
+            Order order = new Order();
+            foreach (var item in basketlist)
+            {
+                order.ProductId += "<" + item.ProductId + ">";
+                order.TotalPrice += item.ProductPrice * item.Quantity;
+                order.Quantity += item.Quantity;
+            }
+            order.TotalPrice = order.TotalPrice * 0.9;
+            order.TotalPrice = order.TotalPrice + order.TotalPrice * 0.18;
+            order.UserID = userId;
+            DateTime now = DateTime.Now;
+            string date = now.ToString("dd/MM/yyyy");
+            order.Date = date;
+            _unitOfWork.orderRepository.Add(order);
+            _unitOfWork.Complete();
+            int lastinsertedid = order.Id;
+            List <OrderDetail> orderDetailList = new List<OrderDetail>();
+            foreach (var item in basketlist)
+            {
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.ProductPrice = item.ProductPrice;
+                orderDetail.product_Id = item.ProductId;
+                orderDetail.Quantity = item.Quantity;
+                orderDetail.OrderId = lastinsertedid;
+                orderDetailList.Add(orderDetail);
+            }
+            _unitOfWork.basketRepository.RemoveRange(basketlist);
+            _unitOfWork.orderDetailRepository.AddRange(orderDetailList);
+            int result = _unitOfWork.Complete(); 
             return AffectedRowCheck(result);
         }
 
@@ -38,27 +68,27 @@ namespace Services
             return result > 0;
         }
 
-        private List<Order> OrderListCheck(List<Order> orderlist)
+        private IEnumerable<Order> OrderListCheck(IEnumerable<Order> orderlist)
         {
             if (orderlist != null)
             {
-                if (orderlist.Count > 1)
+                if (orderlist.Count() > 1)
                     return orderlist;
             }
             return new List<Order>();
         }
 
-        private List<OrderDetail> OrderDetailListCheck(List<OrderDetail> orderdetaillist)
+        private IEnumerable<OrderDetail> OrderDetailListCheck(IEnumerable<OrderDetail> orderdetaillist)
         {
             if (orderdetaillist != null)
             {
-                if (orderdetaillist.Count > 1)
+                if (orderdetaillist.Count() > 0)
                     return orderdetaillist;
             }
             return new List<OrderDetail>();
         }
 
-        private List<OrderDetailView> MapOrderDetail(List<OrderDetail> orderdetaillist)
+        private List<OrderDetailView> MapOrderDetail(IEnumerable<OrderDetail> orderdetaillist)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<OrderDetail, OrderDetailView>()
             .ForMember(dest => dest.Code,act => act.MapFrom(src => src.Product.Code))
@@ -68,7 +98,7 @@ namespace Services
             return mappedOrderDetail;
         }
 
-        private List<OrderView> MapOrder(List<Order> orderlist)
+        private List<OrderView> MapOrder(IEnumerable<Order> orderlist)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Order, OrderView>());
             var mapper = new Mapper(config);
